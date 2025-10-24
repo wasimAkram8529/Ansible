@@ -19,6 +19,12 @@ jobs:
         run: |
           pip install ansible boto3 botocore
 
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.AWS_SSH_PRIVATE_KEY }}" > ~/.ssh/aws.pem
+          chmod 600 ~/.ssh/aws.pem
+
       - name: Run Ansible playbook
         run: |
-          ansible --version
+          ansible-playbook ec2_launch.yml
