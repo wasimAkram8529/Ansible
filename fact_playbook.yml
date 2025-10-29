@@ -1,0 +1,40 @@
+-
+  hosts: localhost
+
+  tasks:
+    - name:
+      file:
+        path: /home/wasim/facts.d
+        recurse: yes
+        state: directory
+        owner: wasim
+
+    - name: Copy custom fact 1
+      copy:
+        src: facts.d/getdate1.fact
+        dest: /home/wasim/facts.d/getdate1.fact
+        owner: wasim
+        mode: 0755
+
+    - name: Copy custom fact 2
+      copy:
+        src: facts.d/getdate2.fact
+        dest: /home/wasim/facts.d/getdate2.fact
+        owner: wasim
+        mode: 0755
+
+    - name: Refresh facts
+      setup:
+        fact_path: /home/wasim/facts.d
+
+    - name: Show default ip address
+      debug:
+        msg: "{{ ansible_default_ipv4.address }}"
+
+    - name: Show custom fact 1
+      debug:
+        msg: "{{ ansible_local.getdate1.date }}"
+
+    - name: Show custom fact 2
+      debug:
+        msg: "{{ ansible_local.getdate2.date.date }}"

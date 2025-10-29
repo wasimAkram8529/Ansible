@@ -1,0 +1,34 @@
+- 
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  # vars:
+  #   example: success
+
+  tasks:
+    - name: debug
+      shell: ansible --version
+      register: result
+
+    - name: Debug2
+      debug:
+        msg: >
+           --== Ansible Jinja2 if variable is defined ( where variable is not defined ) ==--
+
+           {% set example = 'defined' %}
+           {% if example is defined -%}
+             Two is smaller
+             Hii
+           {% endif %}
+
+    - name: Debug3
+      debug:
+        msg: >
+           --== Ansible Jinja2 if variable is defined ( where variable is not defined ) ==--
+
+           {% for entry in range(10, 0, -1) %}
+              {% if entry == 5 %}
+                {% break %}
+              {% endif %}
+              {{ entry }}
+           {% endfor %}

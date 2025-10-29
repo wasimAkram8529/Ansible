@@ -1,0 +1,75 @@
+- name: basic setup
+  hosts: localhost
+  connection: local
+  vars:
+    name: "Wasim Akram"
+    age: 23
+    course: Devops
+
+  tasks:
+    - name: Store ansible version
+      shell: ansible --version
+      register: result
+
+    - name: Show ansible version
+      debug:
+        msg: "{{ result }}"
+
+    - name: Basic details
+      debug:
+        msg:
+          - "Basic details of playbook owner"
+          - "Name: {{ name }}"
+          - "Age: {{ age }}"
+          - "Course: {{ course }}"
+
+    - name: Debug2
+      debug:
+        msg: >
+           --== Ansible Jinja2 if variable is defined ( where variable is not defined ) ==--
+
+           {% set example = 'defined' %}
+           {% if example is defined -%}
+             Two is smaller
+             Hii
+           {% endif %}
+
+    - name: Debug3
+      debug:
+        msg: >
+           --== Ansible Jinja2 if variable is defined ( where variable is not defined ) ==--
+
+           {% for entry in range(10, 0, -1) %}
+              {% if entry == 5 %}
+                {% break %}
+              {% endif %}
+              {{ entry }}
+           {% endfor %}
+
+    - name:
+      debug:
+        msg: >
+          ---=== Ansible Jinja2 filters ===---
+
+          --== min [1, 2, 3, 4, 5] ==--
+
+          {{ [1, 2, 3, 4, 5] | min }}
+
+          --== min [1, 2, 3, 4, 5] ==--
+          {{ [1, 2, 3, 4, 5] | max }}
+
+          --== unique [1, 1, 2, 2, 3, 3, 4, 4, 5, 5] ==--
+
+          {{ [1, 1, 2, 2, 3, 3, 4, 4, 5, 5] | unique }}
+
+          --== difference [1, 2, 3, 4, 5] vs [2, 3, 4] ==--
+
+          {{ [1, 2, 3, 4, 5] | difference([2, 3, 4]) }}
+
+          --== random ['wasim1', 'wasim2', 'wasim3'] ==--
+
+          {{ ['wasim1', 'wasim3', 'wasim2'] | random }}
+
+          --== urlsplit hostname ==--
+
+          {{ "http://docs.ansible.com/ansible/latest/playbooks_filters.html" | urlsplit('hostname') }}

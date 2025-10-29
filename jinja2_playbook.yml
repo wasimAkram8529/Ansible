@@ -1,0 +1,32 @@
+- 
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name:
+      debug:
+        msg: >
+          ---=== Ansible Jinja2 filters ===---
+
+          --== min [1, 2, 3, 4, 5] ==--
+
+          {{ [1, 2, 3, 4, 5] | min }}
+
+          --== min [1, 2, 3, 4, 5] ==--
+          {{ [1, 2, 3, 4, 5] | max }}
+
+          --== unique [1, 1, 2, 2, 3, 3, 4, 4, 5, 5] ==--
+
+          {{ [1, 1, 2, 2, 3, 3, 4, 4, 5, 5] | unique }}
+
+          --== difference [1, 2, 3, 4, 5] vs [2, 3, 4] ==--
+
+          {{ [1, 2, 3, 4, 5] | difference([2, 3, 4]) }}
+
+          --== random ['wasim1', 'wasim2', 'wasim3'] ==--
+
+          {{ ['wasim1', 'wasim3', 'wasim2'] | random }}
+
+          --== urlsplit hostname ==--
+
+          {{ "http://docs.ansible.com/ansible/latest/playbooks_filters.html" | urlsplit('hostname') }}

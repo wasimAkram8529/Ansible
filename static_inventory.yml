@@ -1,0 +1,39 @@
+all:
+  children:
+    staging:
+      children:
+        frontend:
+          hosts:
+            stg-frontend1:
+              ansible_host: 13.234.55.21
+            stg-frontend2:
+              ansible_host: 13.234.55.22
+        backend:
+          hosts:
+            stg-backend1:
+              ansible_host: 3.109.115.11
+            stg-backend2:
+              ansible_host: 3.109.115.12
+        database:
+          hosts:
+            stg-db1:
+              ansible_host: 3.110.200.33
+
+    production:
+      children:
+        frontend:
+          hosts:
+            prod-frontend1:
+              ansible_host: 44.201.110.9
+            prod-frontend2:
+              ansible_host: 44.201.110.10
+        backend:
+          hosts:
+            prod-backend1:
+              ansible_host: 44.202.45.55
+            prod-backend2:
+              ansible_host: 44.202.45.56
+        database:
+          hosts:
+            prod-db1:
+              ansible_host: 44.203.88.77

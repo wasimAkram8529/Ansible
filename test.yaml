@@ -1,0 +1,25 @@
+---
+example_1: 
+  - item_1
+  - item_2
+  - item_3
+
+example_2: 
+  - item_4
+  - item_5
+  - item_6
+
+example_dictionary_1:
+  - example_dictionary_2:
+    - 1
+    - 2
+    - 3
+  - example_dictionary_3:
+    - 4
+    - 5
+    - 6
+  - example_dictionary_4:
+    - 7
+    - 8
+    - 9
+...
