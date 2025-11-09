@@ -1,0 +1,10 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for Question_3
+- name: Jinja2 template
+  template:
+    src: index.html.j2
+    dest: /usr/share/nginx/html/index.html
+    trim_blocks: true
+    mode: 0644
+  notify: jinja_2_result

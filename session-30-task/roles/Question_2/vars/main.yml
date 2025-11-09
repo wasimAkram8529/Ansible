@@ -1,0 +1,7 @@
+#SPDX-License-Identifier: MIT-0
+---
+# vars file for Question_2
+required_packages:
+  - git
+  - curl
+  - nginx

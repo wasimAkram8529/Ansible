@@ -1,0 +1,47 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for Question_1
+- name: Check connectivity
+  ping:
+  register: connectivity_result
+
+- name: Show connectivity result
+  debug:
+    var: connectivity_result
+
+- name: Install Git and Curl on remote EC2
+  block:
+    - name: install Required packages
+      package:
+        name: ['git', 'curl', 'nginx']
+        state: present
+        update_cache: yes
+
+    - name: Start nginx as service
+      service:
+        name: nginx
+        state: started
+      notify: Restart nginx
+
+    - name: Copy index.html
+      copy:
+        src: index.html
+        dest: /usr/share/nginx/html/index.html
+
+  rescue:
+    - name: Remove packages
+      package:
+        name: ['git', 'curl', 'nginx']
+        state: absent
+        update_cache: yes
+
+- name: Create user
+  user:
+    name: 'wasim'
+    state: present
+
+- name: Create directory
+  file:
+    path: /opt/devops
+    state: directory
+    mode: 0744

@@ -1,0 +1,17 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for Question_2
+- name: Install Git and Curl on remote EC2
+  block:
+    - name: install Required packages
+      package:
+        name: "{{ required_packages }}"
+        state: present
+        update_cache: yes
+
+  rescue:
+      - name: Remove packages
+        package:
+          name: "{{ required_packages }}"
+          state: absent
+          update_cache: yes
