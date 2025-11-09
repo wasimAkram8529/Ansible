@@ -1,0 +1,22 @@
+- name: Question_3
+  hosts: tag_Name_Ansible
+  gather_facts: False
+  vars:
+    users:
+      - 'Wasim'
+      - 'Wasim Akram'
+      - 'wasim Akram'
+
+  tasks:
+    - name: Jinja2 template
+      template:
+        src: index.html.j2
+        dest: /usr/share/nginx/html/index.html
+        trim_blocks: true
+        mode: 0644
+      notify: jinja_2_result
+
+  handlers:
+    - name: jinja_2_result
+      debug:
+        msg: "Custom html file copied to remote ec2 instance"
