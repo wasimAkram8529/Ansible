@@ -1,0 +1,15 @@
+{% for entry in ansible_all_ipv4_addresses -%}
+   IP Address entry {{ loop.index }} = {{ entry }}
+{% endfor %}
+
+--== Ansible Jinja2 for range
+
+{% for entry in range(1, 11) -%}
+   {{ entry }}
+{% endfor %}
+
+--== Ansible Jinja2 to print users
+
+{% for user in users %}
+   {{ user }}
+{% endfor %}

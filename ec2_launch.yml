@@ -3,7 +3,7 @@
   connection: local
   gather_facts: false
   vars:
-    desired_instances: 2
+    desired_instances: 1
 
   tasks:
     - name: Create Security Group with SSH, HTTP protocol
@@ -20,6 +20,16 @@
           - proto: tcp
             from_port: 443
             to_port: 443
+            cidr_ip: 0.0.0.0/0
+
+          - proto: tcp
+            from_port: 5000
+            to_port: 5000
+            cidr_ip: 0.0.0.0/0
+
+          - proto: tcp
+            from_port: 3000
+            to_port: 3000
             cidr_ip: 0.0.0.0/0
 
     - name: Get ec2 instances info
@@ -49,64 +59,64 @@
     - name: Refresh Inventory
       meta: refresh_inventory
 
-- name: Make ssh connection with instances
-  hosts: tag_Name_Ansible
-  gather_facts: false
+# - name: Make ssh connection with instances
+#   hosts: tag_Name_Ansible
+#   gather_facts: false
 
-  tasks:
-    - name: wait for ssh to online
-      wait_for_connection:
-        delay: 10
-        timeout: 300
+#   tasks:
+#     - name: wait for ssh to online
+#       wait_for_connection:
+#         delay: 10
+#         timeout: 300
 
-- name: Install and start nginx
-  hosts: tag_Name_Ansible
-  gather_facts: false
+# - name: Install and start nginx
+#   hosts: tag_Name_Ansible
+#   gather_facts: false
 
-  tasks:
-    - name: install nginx in ec2_instance
-      package: 
-        name: nginx
-        state: present
-        update_cache: yes
+#   tasks:
+#     - name: install nginx in ec2_instance
+#       package: 
+#         name: nginx
+#         state: present
+#         update_cache: yes
 
-    - name: Start nginx in ec2_instances
-      service:
-        name: nginx
-        state: restarted
+#     - name: Start nginx in ec2_instances
+#       service:
+#         name: nginx
+#         state: restarted
 
--
-  hosts: tag_Name_Ansible
+# -
+#   hosts: tag_Name_Ansible
 
-  tasks:
-    - debug:
-        msg: "Check http://{{ ansible_host }}"
+#   tasks:
+#     - debug:
+#         msg: "Check http://{{ ansible_host }}"
 
-- name: Terminate All EC2 instances
-  hosts: tag_Name_Ansible
+# - name: Terminate All EC2 instances
+#   hosts: tag_Name_Ansible
   
-  tasks:
-    - name: Terminate ec2 instances
-      ec2_instance:
-        state: absent
-        instance_ids: "{{ instance_id }}"
-        region: us-east-1
-        wait: true
-      delegate_to: localhost
+#   tasks:
+#     - name: Terminate ec2 instances
+#       ec2_instance:
+#         state: absent
+#         instance_ids: "{{ instance_id }}"
+#         region: us-east-1
+#         wait: true
+#       delegate_to: localhost
 
-- name: Remove Security groups in aws
-  hosts: localhost
-  gather_facts: false
+# - name: Remove Security groups in aws
+#   hosts: localhost
+#   gather_facts: false
 
-  tasks:
-    - name:
-      ec2_group:
-         name: Ansible
-         region: us-east-1
-         state: absent
-      register: result
-      until: result is success
-      retries: 20
-      delay: 10
+#   tasks:
+#     - name:
+#       ec2_group:
+#          name: Ansible
+#          region: us-east-1
+#          state: absent
+#       register: result
+#       until: result is success
+#       retries: 20
+#       delay: 10
 
       

@@ -1,0 +1,5 @@
+#SPDX-License-Identifier: MIT-0
+---
+# defaults file for frontend
+nginx_server: "nginx server"
+ansible_playbook: "ansible playbook"

@@ -1,0 +1,15 @@
+all:
+  hosts:
+    common-ec2:
+      ansible_host: ec2-54-224-78-136.compute-1.amazonaws.com
+      ansible_user: ubuntu
+      ansible_ssh_private_key_file: ~/.ssh/ansible_key.pem
+
+  children:
+    db:
+      hosts:
+        common-ec2:
+    
+    app:
+      hosts:
+        common-ec2:

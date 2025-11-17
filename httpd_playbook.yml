@@ -1,0 +1,40 @@
+- 
+  hosts: webserver
+  become: yes
+  gather_facts: false
+
+  tasks:
+    - name: install httpd
+      yum:
+       name: httpd
+       state: present
+
+    - name: Start httpd
+      service:
+       name: httpd
+       state: restarted
+       enabled: yes
+    
+    - name: Deploy simple index.html page
+      copy: 
+        src: ./index.html
+        dest: /var/www/html/index.html
+
+    - name: Install firewalld
+      yum:
+        name: firewalld
+        state: present
+
+    - name: Enable and start f firewalld
+      service:
+        name: firewalld
+        state: started
+        enabled: yes
+
+    - name: Open port 80
+      firewalld:
+        port: 80/tcp
+        permanent: yes
+        state: enabled
+        immediate: yes
+  

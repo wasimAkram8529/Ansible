@@ -1,0 +1,19 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for frontend
+- name: install nginx
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes
+  
+- name: Start nginx as services
+  service:
+    name: nginx
+    state: started
+  notify: Restart nginx
+
+- name: Copy custom index.html file
+  template:
+    src: index.html.j2
+    dest: /usr/share/nginx/html/index.html

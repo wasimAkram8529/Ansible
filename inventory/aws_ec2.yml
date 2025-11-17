@@ -1,8 +1,14 @@
 plugin: amazon.aws.aws_ec2
-cache: false
 regions:
   - us-east-1
-
 keyed_groups:
   - prefix: tag
-    key: tags
+    key: tags.Name
+filters:
+  instance-state-name: running
+
+# Add these two lines to fix your SSH connection
+hostnames:
+  - public_dns_name
+compose:
+  ansible_host: public_ip_address

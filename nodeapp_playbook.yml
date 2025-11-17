@@ -1,0 +1,36 @@
+- name: Setup node app
+  hosts: webserver
+  become: yes
+  gather_facts: false
+
+  tasks:
+    - name: Open port 5000
+      firewalld:
+        port: 5000/tcp
+        permanent: yes
+        state: enabled
+        immediate: yes
+
+    - name: Install node and other packages
+      yum:
+        name:
+          - nodejs
+          - npm
+          - git
+        state: present
+
+    - name: Copy node app
+      copy:
+        src: nodeapp/
+        dest: /opt/node-app
+
+    - name: Install dependencies
+      command: npm install
+      args:
+        chdir: /opt/node-app
+
+    - name: Start backend as background process
+      shell: |
+        nohup npm start > backend.log 2>&1 &
+      args:
+        chdir: /opt/node-app

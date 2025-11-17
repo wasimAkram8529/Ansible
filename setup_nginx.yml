@@ -1,0 +1,49 @@
+---
+- name: Setup and configure a web server
+  hosts: webservers
+  become: yes
+
+  vars:
+    web_root: /var/www/mywebsite
+    index_content: "<h1>Welcome to My Automated Web Server</h1>"
+
+  tasks:
+
+    - name: Update APT cache
+      apt:
+        update_cache: yes
+
+    - name: Install NGINX
+      apt:
+        name: nginx
+        state: present
+
+    - name: Create web root directory
+      file:
+        path: "{{ web_root }}"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
+
+    - name: Deploy index.html
+      copy:
+        dest: "{{ web_root }}/index.html"
+        content: "{{ index_content }}"
+        owner: www-data
+        group: www-data
+        mode: '0644'
+
+    - name: Configure NGINX server block
+      copy:
+        dest: /etc/nginx/sites-available/mywebsite
+        content: |
+          server {
+              listen 80;
+              server_name _;
+              root {{ web_root }};
+              index index.html;
+          }
+      notify: Restart NGINX
+
+    - name

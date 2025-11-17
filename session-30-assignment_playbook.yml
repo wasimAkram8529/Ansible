@@ -1,0 +1,11 @@
+- name: Simple Playbook
+  hosts: tag_Name_Ansible
+  gather_facts: False
+  tags: Task_1
+  roles:
+    - {role: Question_1, tags: Task_1}
+    - {role: Question_2, tags: Task_2}
+    - {role: Question_3, tags: Task_3}
+    
+
+  

@@ -1,0 +1,41 @@
+---
+- name: Deploy Flask Calculator App
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Install Python3 and pip
+      yum:
+        name:
+          - python3
+          - python3-pip
+        update_cache: yes
+        state: present
+
+    - name: Create app directory
+      file:
+        path: /opt/flaskapp
+        state: directory
+
+    - name: Copy Flask app files
+      copy:
+        src: ./python_calculator/app.py
+        dest: /opt/flaskapp/app.py
+        mode: '0755'
+
+    - name: Copy requirements.txt
+      copy:
+        src: ./python_calculator/requirements.txt
+        dest: /opt/flaskapp/requirements.txt
+        mode: '0644'
+
+    - name: Install Flask dependencies
+      pip:
+        requirements: /opt/flaskapp/requirements.txt
+        executable: pip3
+
+    - name: Start Flask app
+      shell: |
+        nohup python3 /opt/flaskapp/app.py > /opt/flaskapp/flask.log 2>&1 &
+      args:
+        executable: /bin/bash
